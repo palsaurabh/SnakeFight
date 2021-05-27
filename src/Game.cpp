@@ -15,8 +15,8 @@ Point Game::getUnoccupiedLocation()
     while(notfound)
     {
         notfound = false;
-        Pt.X = getRandomNumber(0, K_MAX_COLS - 1);
-        Pt.Y = getRandomNumber(0, K_MAX_ROWS - 1);
+        Pt.X = getRandomNumber(0, K_GRIDWIDTH - 1);
+        Pt.Y = getRandomNumber(0, K_GRIDHEIGHT - 1);
 
         for(auto& p : players)
         {
@@ -43,13 +43,49 @@ Box& Game::getFood()
     return food;
 }
 
+dir Game::CheckDirection(Snake &snake, dir input) const 
+{
+    dir opposite = dir::NO_DIR;
+    switch (input)
+    {
+    case dir::UP_DIR:
+        opposite = dir::DOWN_DIR;
+        break;
+    case dir::DOWN_DIR:
+        opposite = dir::UP_DIR;
+        break;
+    case dir::RIGHT_DIR:
+        opposite = dir::LEFT_DIR;
+        break;
+    case dir::LEFT_DIR:
+        opposite = dir::RIGHT_DIR;
+        break;
+    default:
+        break;
+    }
+  if (snake.getSnakeDirection() != opposite || snake.getSnakeLen() == 1) 
+    return input;
+  else
+    return dir::NO_DIR;
+}
+
+
 void Game::update(dir& newDir)
 {
+    bool foodEaten = false;
     for(auto& snake : players)
     {
         if(snake.alive)
         {
-            snake.updateSnake(newDir, false);
+            if(food.getLocation().X == snake.getSnakeBoxLocationAt(0).X &&
+                food.getLocation().Y == snake.getSnakeBoxLocationAt(0).Y)
+            {
+                foodEaten = true;
+                generateFood();
+            }
+            
+            snake.updateSnake(CheckDirection(snake, newDir), foodEaten);
+            foodEaten = false;
         }
     }
 }

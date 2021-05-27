@@ -4,8 +4,9 @@
 #include "Snake.h"
 
 class Controller {
- public:
+  public:
   void HandleInput(bool &running, dir &newDir) const;
+
 };
 
 #endif

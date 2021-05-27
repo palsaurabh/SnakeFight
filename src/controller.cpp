@@ -3,6 +3,7 @@
 #include "SDL.h"
 #include "Snake.h"
 
+
 void Controller::HandleInput(bool &running, dir &newDir) const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {

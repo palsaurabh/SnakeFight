@@ -20,16 +20,18 @@ class Game
             }
             for(int i = 0; i < num_players; i++)
             {
-                players.emplace_back(Snake(getRandomNumber((K_MAX_COLS/2 - 2), (K_MAX_COLS/2 + 2)), 
-                                            getRandomNumber((K_MAX_ROWS/2 - 2), (K_MAX_ROWS/2 + 2)),
+                players.emplace_back(Snake(getRandomNumber((K_GRIDWIDTH/2 - 2), (K_GRIDWIDTH/2 + 2)), 
+                                            getRandomNumber((K_GRIDHEIGHT/2 - 2), (K_GRIDHEIGHT/2 + 2)),
                                             getRandomNumber(0, 255)));
             }
             loop = true;
+            generateFood();
         }
         void update(dir& newDir);
         Box& getFood();
         void generateFood();
         void Loop(const Controller &controller, Renderer &renderer, std::size_t target_frame_duration);
+        dir CheckDirection(Snake &snake, dir input) const;
     private:
         Point getUnoccupiedLocation();
         int getRandomNumber(int lowerRange, int higherRange);

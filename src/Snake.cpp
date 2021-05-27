@@ -2,11 +2,11 @@
 
 void Snake::updateSnake(dir newDir, bool gotFood)
 {
-    _tail = _Snake_Body.back();
-
     _snakeMovement +=speed;
     if(_snakeMovement > 1.0)
     {
+        _tail = _Snake_Body.back();
+    
         if(newDir != dir::NO_DIR)
         {
             moveSnake(newDir);
@@ -15,24 +15,33 @@ void Snake::updateSnake(dir newDir, bool gotFood)
         {
             moveSnake(_Snake_Body.front().getDirection());
         }
+        _snakeMovement = 0;
     }
     if(gotFood)
     {
         growSnake();
-        speed +=speed;
+        // std::cerr<<"Snake Grown"<<'\n';
+        speed += K_SPEED_INCREMENTS;
     }
 }
 
 void Snake::moveSnake(dir dirctn)
-{   
+{
+    // std::cerr<<"Snake Size: "<<_Snake_Body.size()<<'\n';
+    // std::cerr<<"Existing head box: X: "<<_Snake_Body.at(0).getLocation().X<<" Y: "<<_Snake_Body.at(0).getLocation().Y<<'\n';
+    // if(_Snake_Body.size() == 2)
+    //     std::cerr<<"Existing head box: X: "<<_Snake_Body.at(1).getLocation().X<<" Y: "<<_Snake_Body.at(1).getLocation().Y<<'\n';
+
     int i = _Snake_Body.size() - 1;
     for(; i > 0; i--)
     {
         _Snake_Body.at(i).updateDirection(_Snake_Body.at(i-1).getDirection());
         _Snake_Body.at(i).moveBox();
+        // std::cerr<<"Updated trailing box: X: "<<_Snake_Body.at(i).getLocation().X<<" Y: "<<_Snake_Body.at(i).getLocation().Y<<'\n';
     }
     _Snake_Body.at(i).updateDirection(dirctn);
     _Snake_Body.at(i).moveBox();
+    // std::cerr<<"Updated head box: X: "<<_Snake_Body.at(i).getLocation().X<<" Y: "<<_Snake_Body.at(i).getLocation().Y<<'\n';
 
     
     for(int i = _Snake_Body.size() - 1; i > 0; i--)

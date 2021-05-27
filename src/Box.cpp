@@ -5,20 +5,28 @@ void Box::moveBox(dir dirctn)
     switch (dirctn)
     {
     case dir::UP_DIR:
-        if ((_loc.Y-1)> 0)
+        if ((_loc.Y-1)>= 0)
             _loc.Y-=1;
+        else
+            _loc.Y = K_GRIDHEIGHT - 1;
         break;
     case dir::DOWN_DIR:
-        if ((_loc.Y+1)<= K_MAX_ROWS)
+        if ((_loc.Y+1)< K_GRIDHEIGHT)
             _loc.Y+=1;
+        else
+            _loc.Y = 0;
         break;
     case dir::LEFT_DIR:
-        if((_loc.X-1)>0)
+        if((_loc.X-1)>=0)
             _loc.X-=1;
+        else
+            _loc.X = K_GRIDWIDTH - 1;
         break;
     case dir::RIGHT_DIR:
-        if((_loc.X+1)<= K_MAX_COLS)
+        if((_loc.X+1)< K_GRIDWIDTH)
             _loc.X+=1;
+        else
+            _loc.X = 0;
         break;
     
     default:
@@ -31,20 +39,28 @@ void Box::moveBox()
     switch (_direction)
     {
     case dir::UP_DIR:
-        if ((_loc.Y-1)> 0)
+        if ((_loc.Y-1)>= 0)
             _loc.Y-=1;
+        else
+            _loc.Y = K_GRIDHEIGHT - 1;
         break;
     case dir::DOWN_DIR:
-        if ((_loc.Y+1)<= K_MAX_ROWS)
+        if ((_loc.Y+1)< K_GRIDHEIGHT)
             _loc.Y+=1;
+        else
+            _loc.Y = 0;
         break;
     case dir::LEFT_DIR:
-        if((_loc.X-1)>0)
+        if((_loc.X-1)>=0)
             _loc.X-=1;
+        else
+            _loc.X = K_GRIDWIDTH - 1;
         break;
     case dir::RIGHT_DIR:
-        if((_loc.X+1)<= K_MAX_COLS)
+        if((_loc.X+1)< K_GRIDWIDTH)
             _loc.X+=1;
+        else
+            _loc.X = 0;
         break;
     
     default:

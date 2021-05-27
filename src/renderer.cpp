@@ -58,7 +58,7 @@ void Renderer::Render(std::vector<Snake>&  players,  Box& food) {
   
   for (auto& snake : players) 
   {
-    for(int i = 0; i < snake.getSnakeLen(); i++)
+    for(int i = 1; i < snake.getSnakeLen(); i++)
     {
       block.x = snake.getSnakeBoxLocationAt(i).X * block.w;
       block.y = snake.getSnakeBoxLocationAt(i).Y * block.h;
@@ -66,6 +66,7 @@ void Renderer::Render(std::vector<Snake>&  players,  Box& food) {
     }
 
     // Render snake's head
+    // std::cerr<<"Head X: "<< snake.getSnakeBoxLocationAt(0).X << " Head Y: "<< snake.getSnakeBoxLocationAt(0).Y<<'\n';
     block.x = static_cast<int>(snake.getSnakeBoxLocationAt(0).X) * block.w;
     block.y = static_cast<int>(snake.getSnakeBoxLocationAt(0).Y) * block.h;
     if (snake.alive) {
@@ -81,6 +82,6 @@ void Renderer::Render(std::vector<Snake>&  players,  Box& food) {
 }
 
 void Renderer::UpdateWindowTitle(int score, int fps) {
-  std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
+  std::string title{"Snake Fight Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
