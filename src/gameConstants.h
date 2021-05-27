@@ -1,0 +1,13 @@
+#ifndef GAMECONSTANTS_H
+#define GAMECONSTANTS_H
+
+#define K_SCREENWIDTH   640
+#define K_SCREENHEIGHT  640
+#define K_FPS           60
+#define K_MSPERFRAME    (1000/K_FPS)
+#define K_GRIDWIDTH     32
+#define K_GRIDHEIGHT    32  
+#define K_MAX_ROWS      (K_SCREENHEIGHT/K_GRIDHEIGHT)
+#define K_MAX_COLS      (K_SCREENWIDTH/K_GRIDWIDTH)
+#define K_MAX_NUM_PLAYERS   12
+#endif/*GAMECONSTANTS_H*/
