@@ -20,6 +20,7 @@ void Snake::updateSnake(dir newDir, bool gotFood)
     if(gotFood)
     {
         growSnake();
+        incrementScore();
         // std::cerr<<"Snake Grown"<<'\n';
         speed += K_SPEED_INCREMENTS;
     }
@@ -73,4 +74,13 @@ Point Snake::getSnakeBoxLocationAt(int location)
 dir Snake::getSnakeDirection()
 {
     return _Snake_Body.front().getDirection();
+}
+
+void Snake::incrementScore()
+{
+    score++;
+}
+int Snake::getScore()
+{
+    return score;
 }

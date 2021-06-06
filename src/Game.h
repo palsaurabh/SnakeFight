@@ -2,9 +2,10 @@
 #define GAME_H
 
 #include <random>
+#include "Food.h"
 #include "Snake.h"
-#include "renderer.h"
-#include "controller.h"
+#include "Renderer.h"
+#include "Controller.h"
 
 
 class Game
@@ -27,8 +28,8 @@ class Game
             loop = true;
             generateFood();
         }
-        void update(dir& newDir);
-        Box& getFood();
+        void update(dir *newDir);
+        Food& getFood();
         void generateFood();
         void Loop(const Controller &controller, Renderer &renderer, std::size_t target_frame_duration);
         dir CheckDirection(Snake &snake, dir input) const;
@@ -37,7 +38,7 @@ class Game
         int getRandomNumber(int lowerRange, int higherRange);
         bool _isMultiplayer;
         int _numPlayers{1};
-        Box food;
+        Food food;
         bool loop;
 };
 

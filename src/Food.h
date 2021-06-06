@@ -4,15 +4,19 @@
 #include <iostream>
 #include <mutex>
 #include "Box.h"
-#include "gameConstants.h"
+#include "GameConstants.h"
 
 class Food : public Box
 {
     public:
+    Food()
+    {
+        
+    };
+    Food(int xLoc, int yLoc, dir direc = dir::NO_DIR, int r = 255, int g = 0, int b = 0, bool ishead = false, bool eaten = false):
+    Box{xLoc, yLoc, direc, r, g, b, ishead}, Eaten{eaten} {}
 
-
-    private:
-    std::mutex mtx;
+    bool Eaten;
 };
 
 #endif /*FOOD_H*/

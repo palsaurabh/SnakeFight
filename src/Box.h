@@ -2,7 +2,7 @@
 #define BOX_H
 
 #include <iostream>
-#include "gameConstants.h"
+#include "GameConstants.h"
 
 enum class dir {NO_DIR, UP_DIR, DOWN_DIR, LEFT_DIR, RIGHT_DIR};
 

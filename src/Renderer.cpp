@@ -1,4 +1,4 @@
-#include "renderer.h"
+#include "Renderer.h"
 #include <iostream>
 #include <string>
 
@@ -38,7 +38,7 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(std::vector<Snake>&  players,  Box& food) {
+void Renderer::Render(std::vector<Snake>&  players,  Food& food) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
@@ -48,16 +48,17 @@ void Renderer::Render(std::vector<Snake>&  players,  Box& food) {
   SDL_RenderClear(sdl_renderer);
 
   // Render food
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
+  SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0xFF, 0x00, 0xFF);
   block.x = food.getLocation().X * block.w;
   block.y = food.getLocation().Y * block.h;
   SDL_RenderFillRect(sdl_renderer, &block);
 
   // Render snake's body
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-  
+  // SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  int snakeNum = 0;
   for (auto& snake : players) 
   {
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     for(int i = 1; i < snake.getSnakeLen(); i++)
     {
       block.x = snake.getSnakeBoxLocationAt(i).X * block.w;
@@ -70,18 +71,33 @@ void Renderer::Render(std::vector<Snake>&  players,  Box& food) {
     block.x = static_cast<int>(snake.getSnakeBoxLocationAt(0).X) * block.w;
     block.y = static_cast<int>(snake.getSnakeBoxLocationAt(0).Y) * block.h;
     if (snake.alive) {
-      SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
+      if(snakeNum == 0)
+      {
+        SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
+      }
+      else if(snakeNum == 1)
+      {
+        SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0x00, 0xFF);
+      }
     } else {
-      SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
+      SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     }
     SDL_RenderFillRect(sdl_renderer, &block);
+    snakeNum++;
   }
 
   // Update Screen
   SDL_RenderPresent(sdl_renderer);
 }
 
-void Renderer::UpdateWindowTitle(int score, int fps) {
-  std::string title{"Snake Fight Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
+void Renderer::UpdateWindowTitle(int score1, int score2, int fps) {
+  // std::string title{"Snake Fight Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
+  std::string title{"Snake Fight Score: "};
+  title += "P1: ";
+  title += std::to_string(score1);
+  title += "   P2: ";
+  title += std::to_string(score2);
+  title += " FPS: ";
+  title += std::to_string(fps);
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }

@@ -5,7 +5,7 @@
 
 class Controller {
   public:
-  void HandleInput(bool &running, dir &newDir) const;
+  void HandleInput(bool &running, dir *newDir) const;
 
 };
 

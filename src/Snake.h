@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "Box.h"
-#include "gameConstants.h"
+#include "GameConstants.h"
 
 
 class Snake
@@ -18,12 +18,15 @@ class Snake
         speed = K_SNAKE_SPEED;
         _snakeMovement = 0;
         alive = true;
+        score = 0;
     }
 
     void updateSnake(dir newDir = dir::NO_DIR, bool gotFood = false);
     int getSnakeLen() ; 
     Point getSnakeBoxLocationAt(int location);
     dir getSnakeDirection();
+    void incrementScore();
+    int getScore();
     float speed{0.1};
     bool alive;
 
@@ -33,6 +36,7 @@ class Snake
     void moveSnake(dir dirctn);
     void growSnake();
     float _snakeMovement{0};
+    int score;
     Box _tail;
 };
 
