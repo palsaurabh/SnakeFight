@@ -14,7 +14,7 @@ class Renderer {
 
   void Render(std::vector<Snake>& snake, Food &food);
   void UpdateWindowTitle(int score1, int score2, int fps);
-
+  void UpdateWindowTitle(int player) ;
  private:
   SDL_Window *sdl_window;
   SDL_Renderer *sdl_renderer;

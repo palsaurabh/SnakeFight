@@ -10,4 +10,5 @@
 #define K_MAX_NUM_PLAYERS   12
 #define K_SNAKE_SPEED   0.05
 #define K_SPEED_INCREMENTS  0.02
+#define K_MAX_NUMFOODS  30
 #endif/*GAMECONSTANTS_H*/

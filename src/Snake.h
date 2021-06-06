@@ -24,6 +24,7 @@ class Snake
     void updateSnake(dir newDir = dir::NO_DIR, bool gotFood = false);
     int getSnakeLen() ; 
     Point getSnakeBoxLocationAt(int location);
+    void breakSnakeAt(int location);
     dir getSnakeDirection();
     void incrementScore();
     int getScore();

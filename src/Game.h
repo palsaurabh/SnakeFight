@@ -7,13 +7,13 @@
 #include "Renderer.h"
 #include "Controller.h"
 
-
+enum class GameMode {EATING_MODE, FIGHTING_MODE, OVER_MODE};
 class Game
 {
     public:
         std::vector<Snake> players;
 
-        Game(bool multiplayer = false, int num_players = 1): _isMultiplayer{multiplayer}, _numPlayers{num_players}
+        Game(int num_players = 1): _numPlayers{num_players}
         {
             if(_numPlayers > K_MAX_NUM_PLAYERS)
             {
@@ -27,19 +27,22 @@ class Game
             }
             loop = true;
             generateFood();
+            mode = GameMode::EATING_MODE;
         }
         void update(dir *newDir);
         Food& getFood();
         void generateFood();
         void Loop(const Controller &controller, Renderer &renderer, std::size_t target_frame_duration);
         dir CheckDirection(Snake &snake, dir input) const;
+        dir GetOppDirection(dir input) const ;
     private:
         Point getUnoccupiedLocation();
         int getRandomNumber(int lowerRange, int higherRange);
-        bool _isMultiplayer;
+        // bool _isMultiplayer;
         int _numPlayers{1};
         Food food;
         bool loop;
+        GameMode mode;
 };
 
 

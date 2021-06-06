@@ -101,3 +101,12 @@ void Renderer::UpdateWindowTitle(int score1, int score2, int fps) {
   title += std::to_string(fps);
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
+
+void Renderer::UpdateWindowTitle(int player) {
+  // std::string title{"Snake Fight Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
+  std::string title{"Game Over!!!: "};
+  title += "Player ";
+  title += std::to_string(player);
+  title += " Wins!!";
+  SDL_SetWindowTitle(sdl_window, title.c_str());
+}

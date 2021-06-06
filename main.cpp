@@ -5,7 +5,7 @@ int main() {
   Renderer renderer(K_SCREENWIDTH, K_SCREENHEIGHT, K_GRIDWIDTH, K_GRIDHEIGHT);
   Controller controller;
   // Game game;
-  Game game(true, 2);
+  Game game(2);
   game.Loop(controller, renderer, K_MSPERFRAME);
   std::cout << "Game has terminated successfully!\n";
 //   std::cout << "Score: " << game.GetScore() << "\n";

@@ -71,6 +71,11 @@ Point Snake::getSnakeBoxLocationAt(int location)
     return _Snake_Body.at(location).getLocation(); 
 }
 
+void Snake::breakSnakeAt(int location)
+{
+    _Snake_Body.erase(_Snake_Body.cbegin() + location, _Snake_Body.cend());
+}
+
 dir Snake::getSnakeDirection()
 {
     return _Snake_Body.front().getDirection();
