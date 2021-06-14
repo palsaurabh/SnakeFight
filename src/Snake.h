@@ -6,11 +6,9 @@
 #include "Box.h"
 #include "GameConstants.h"
 
-
 class Snake
 {
-    public:
-    
+public:
     Snake(int x, int y, int color)
     {
         _Snake_Body.emplace_back(Box(x, y, dir::NO_DIR, color, color, 0, true));
@@ -22,17 +20,16 @@ class Snake
     }
 
     void updateSnake(dir newDir = dir::NO_DIR, bool gotFood = false);
-    int getSnakeLen() ; 
-    Point getSnakeBoxLocationAt(int location);
+    int getSnakeLen() const;
+    Point getSnakeBoxLocationAt(int location) const;
     void breakSnakeAt(int location);
-    dir getSnakeDirection();
+    dir getSnakeDirection() const;
     void incrementScore();
-    int getScore();
+    int getScore() const;
     float speed{0.1};
     bool alive;
 
-    private:
-    
+private:
     std::vector<Box> _Snake_Body;
     void moveSnake(dir dirctn);
     void growSnake();

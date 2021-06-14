@@ -8,7 +8,7 @@ int Game::getRandomNumber(int lowerRange, int higherRange)
     return distr(engine);
 }
 
-Point Game::getUnoccupiedLocation()
+const Point Game::getUnoccupiedLocation()
 {
     Point Pt;
     bool notfound = true;
@@ -38,10 +38,9 @@ void Game::generateFood()
     food.updateLocation(getUnoccupiedLocation());
     food.foodCount++;
     printf("Food Generated!!. Food Count = %d\n", food.foodCount);
-
 }
 
-Food &Game::getFood()
+const Food &Game::getFood()
 {
     return food;
 }
@@ -69,7 +68,7 @@ dir Game::GetOppDirection(dir input) const
 
     return opposite;
 }
-dir Game::CheckDirection(Snake &snake, dir input) const
+dir Game::CheckDirection(const Snake &snake, const dir input) const
 {
     dir opposite = dir::NO_DIR;
     opposite = GetOppDirection(input);
@@ -107,20 +106,20 @@ void Game::update(dir *newDir)
     else if (mode == GameMode::FIGHTING_MODE)
     {
         // printf("Game Mode Fight!!\n");
-        for(int count = 1; count < players.at(0).getSnakeLen(); count++)
+        for (int count = 1; count < players.at(0).getSnakeLen(); count++)
         {
-            if(players.at(0).getSnakeBoxLocationAt(count).X == players.at(1).getSnakeBoxLocationAt(0).X &&
-            players.at(0).getSnakeBoxLocationAt(count).Y == players.at(1).getSnakeBoxLocationAt(0).Y)
+            if (players.at(0).getSnakeBoxLocationAt(count).X == players.at(1).getSnakeBoxLocationAt(0).X &&
+                players.at(0).getSnakeBoxLocationAt(count).Y == players.at(1).getSnakeBoxLocationAt(0).Y)
             {
                 players.at(0).breakSnakeAt(count);
                 break;
             }
         }
 
-        for(int count = 1; count < players.at(1).getSnakeLen(); count++)
+        for (int count = 1; count < players.at(1).getSnakeLen(); count++)
         {
-            if(players.at(1).getSnakeBoxLocationAt(count).X == players.at(0).getSnakeBoxLocationAt(0).X &&
-            players.at(1).getSnakeBoxLocationAt(count).Y == players.at(0).getSnakeBoxLocationAt(0).Y)
+            if (players.at(1).getSnakeBoxLocationAt(count).X == players.at(0).getSnakeBoxLocationAt(0).X &&
+                players.at(1).getSnakeBoxLocationAt(count).Y == players.at(0).getSnakeBoxLocationAt(0).Y)
             {
                 players.at(1).breakSnakeAt(count);
                 break;
@@ -131,10 +130,10 @@ void Game::update(dir *newDir)
         players.at(1).updateSnake(CheckDirection(players.at(1), newDir[1]), false);
     }
 
-    if(food.Eaten)
+    if (food.Eaten)
     {
         generateFood();
-        if(food.foodCount >= K_MAX_NUMFOODS)
+        if (food.foodCount >= K_MAX_NUMFOODS)
         {
             mode = GameMode::FIGHTING_MODE;
             printf("Game mode FIGHT!!\n");
@@ -142,10 +141,10 @@ void Game::update(dir *newDir)
         food.Eaten = false;
     }
 
-    if(!players.at(0).alive || !players.at(1).alive)
+    if (!players.at(0).alive || !players.at(1).alive)
     {
-       mode = GameMode::OVER_MODE; 
-       printf("Game mode OVER!!\n");
+        mode = GameMode::OVER_MODE;
+        printf("Game mode OVER!!\n");
     }
 }
 
@@ -163,7 +162,7 @@ void Game::Loop(const Controller &controller, Renderer &renderer, std::size_t ta
         frame_start = SDL_GetTicks();
         // Input, Update, Render - the main game loop.
         controller.HandleInput(loop, newDir);
-        if(mode != GameMode::OVER_MODE)
+        if (mode != GameMode::OVER_MODE)
         {
             update(newDir);
         }
@@ -179,7 +178,7 @@ void Game::Loop(const Controller &controller, Renderer &renderer, std::size_t ta
         // After every second, update the window title.
         if (frame_end - title_timestamp >= 1000)
         {
-            if(mode != GameMode::OVER_MODE)
+            if (mode != GameMode::OVER_MODE)
             {
                 renderer.UpdateWindowTitle(players.at(0).getScore(), players.at(1).getScore(), frame_count);
             }

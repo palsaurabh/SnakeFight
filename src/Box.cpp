@@ -5,30 +5,30 @@ void Box::moveBox(dir dirctn)
     switch (dirctn)
     {
     case dir::UP_DIR:
-        if ((_loc.Y-1)>= 0)
-            _loc.Y-=1;
+        if ((_loc.Y - 1) >= 0)
+            _loc.Y -= 1;
         else
             _loc.Y = K_GRIDHEIGHT - 1;
         break;
     case dir::DOWN_DIR:
-        if ((_loc.Y+1)< K_GRIDHEIGHT)
-            _loc.Y+=1;
+        if ((_loc.Y + 1) < K_GRIDHEIGHT)
+            _loc.Y += 1;
         else
             _loc.Y = 0;
         break;
     case dir::LEFT_DIR:
-        if((_loc.X-1)>=0)
-            _loc.X-=1;
+        if ((_loc.X - 1) >= 0)
+            _loc.X -= 1;
         else
             _loc.X = K_GRIDWIDTH - 1;
         break;
     case dir::RIGHT_DIR:
-        if((_loc.X+1)< K_GRIDWIDTH)
-            _loc.X+=1;
+        if ((_loc.X + 1) < K_GRIDWIDTH)
+            _loc.X += 1;
         else
             _loc.X = 0;
         break;
-    
+
     default:
         break;
     }
@@ -39,48 +39,46 @@ void Box::moveBox()
     switch (_direction)
     {
     case dir::UP_DIR:
-        if ((_loc.Y-1)>= 0)
-            _loc.Y-=1;
+        if ((_loc.Y - 1) >= 0)
+            _loc.Y -= 1;
         else
             _loc.Y = K_GRIDHEIGHT - 1;
         break;
     case dir::DOWN_DIR:
-        if ((_loc.Y+1)< K_GRIDHEIGHT)
-            _loc.Y+=1;
+        if ((_loc.Y + 1) < K_GRIDHEIGHT)
+            _loc.Y += 1;
         else
             _loc.Y = 0;
         break;
     case dir::LEFT_DIR:
-        if((_loc.X-1)>=0)
-            _loc.X-=1;
+        if ((_loc.X - 1) >= 0)
+            _loc.X -= 1;
         else
             _loc.X = K_GRIDWIDTH - 1;
         break;
     case dir::RIGHT_DIR:
-        if((_loc.X+1)< K_GRIDWIDTH)
-            _loc.X+=1;
+        if ((_loc.X + 1) < K_GRIDWIDTH)
+            _loc.X += 1;
         else
             _loc.X = 0;
         break;
-    
+
     default:
         break;
     }
 }
 
-bool Box::isHead()
+bool Box::isHead() const
 {
     return _isHead;
 }
 
-Point Box::getLocation()
+Point Box::getLocation() const
 {
     return _loc;
 }
 
-
-
-Box& Box::operator=(const Box& box)
+Box &Box::operator=(const Box &box)
 {
     this->_B = box._B;
     this->_direction = box._direction;
@@ -90,9 +88,8 @@ Box& Box::operator=(const Box& box)
     this->_loc.X = box._loc.X;
     this->_loc.Y = box._loc.Y;
 
-    return *this;        
+    return *this;
 }
-
 
 void Box::updateLocation(Point loc)
 {
@@ -106,7 +103,7 @@ void Box::updateDirection(dir dirctn)
     _direction = dirctn;
 }
 
-dir Box::getDirection()
+dir Box::getDirection() const
 {
     return _direction;
 }

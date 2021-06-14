@@ -2,12 +2,12 @@
 
 void Snake::updateSnake(dir newDir, bool gotFood)
 {
-    _snakeMovement +=speed;
-    if(_snakeMovement > 1.0)
+    _snakeMovement += speed;
+    if (_snakeMovement > 1.0)
     {
         _tail = _Snake_Body.back();
-    
-        if(newDir != dir::NO_DIR)
+
+        if (newDir != dir::NO_DIR)
         {
             moveSnake(newDir);
         }
@@ -17,7 +17,7 @@ void Snake::updateSnake(dir newDir, bool gotFood)
         }
         _snakeMovement = 0;
     }
-    if(gotFood)
+    if (gotFood)
     {
         growSnake();
         incrementScore();
@@ -34,9 +34,9 @@ void Snake::moveSnake(dir dirctn)
     //     std::cerr<<"Existing head box: X: "<<_Snake_Body.at(1).getLocation().X<<" Y: "<<_Snake_Body.at(1).getLocation().Y<<'\n';
 
     int i = _Snake_Body.size() - 1;
-    for(; i > 0; i--)
+    for (; i > 0; i--)
     {
-        _Snake_Body.at(i).updateDirection(_Snake_Body.at(i-1).getDirection());
+        _Snake_Body.at(i).updateDirection(_Snake_Body.at(i - 1).getDirection());
         _Snake_Body.at(i).moveBox();
         // std::cerr<<"Updated trailing box: X: "<<_Snake_Body.at(i).getLocation().X<<" Y: "<<_Snake_Body.at(i).getLocation().Y<<'\n';
     }
@@ -44,16 +44,14 @@ void Snake::moveSnake(dir dirctn)
     _Snake_Body.at(i).moveBox();
     // std::cerr<<"Updated head box: X: "<<_Snake_Body.at(i).getLocation().X<<" Y: "<<_Snake_Body.at(i).getLocation().Y<<'\n';
 
-    
-    for(int i = _Snake_Body.size() - 1; i > 0; i--)
+    for (int i = _Snake_Body.size() - 1; i > 0; i--)
     {
-        if(_Snake_Body.at(i).getLocation().X == _Snake_Body.at(0).getLocation().X &&
-        _Snake_Body.at(i).getLocation().Y == _Snake_Body.at(0).getLocation().Y)
+        if (_Snake_Body.at(i).getLocation().X == _Snake_Body.at(0).getLocation().X &&
+            _Snake_Body.at(i).getLocation().Y == _Snake_Body.at(0).getLocation().Y)
         {
             alive = false;
         }
     }
-        
 }
 
 void Snake::growSnake()
@@ -61,14 +59,14 @@ void Snake::growSnake()
     _Snake_Body.emplace_back(Box(_tail));
 }
 
-int Snake::getSnakeLen()
+int Snake::getSnakeLen() const
 {
     return _Snake_Body.size();
 }
 
-Point Snake::getSnakeBoxLocationAt(int location)
+Point Snake::getSnakeBoxLocationAt(int location) const
 {
-    return _Snake_Body.at(location).getLocation(); 
+    return _Snake_Body.at(location).getLocation();
 }
 
 void Snake::breakSnakeAt(int location)
@@ -76,7 +74,7 @@ void Snake::breakSnakeAt(int location)
     _Snake_Body.erase(_Snake_Body.cbegin() + location, _Snake_Body.cend());
 }
 
-dir Snake::getSnakeDirection()
+dir Snake::getSnakeDirection() const
 {
     return _Snake_Body.front().getDirection();
 }
@@ -85,7 +83,7 @@ void Snake::incrementScore()
 {
     score++;
 }
-int Snake::getScore()
+int Snake::getScore() const
 {
     return score;
 }
