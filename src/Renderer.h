@@ -16,7 +16,7 @@ public:
   //Render the game on the screen
   void Render(std::vector<Snake> &snake, Food &food);
   //Print window title during the game mode Eating Food
-  void UpdateWindowTitle(int score1, int score2, int fps);
+  void UpdateWindowTitle(int score1, int score2,  int foodRemaining,  int timeRemaining, int fps);
   //Print window title after game finished
   void UpdateWindowTitle(int player);
 

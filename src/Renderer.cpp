@@ -100,7 +100,7 @@ void Renderer::Render(std::vector<Snake> &players, Food &food)
   SDL_RenderPresent(sdl_renderer);
 }
 
-void Renderer::UpdateWindowTitle(int score1, int score2, int fps)
+void Renderer::UpdateWindowTitle(int score1, int score2, int foodRemaining, int timeRemaining, int fps)
 {
   // std::string title{"Snake Fight Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   std::string title{"Snake Fight Score: "};
@@ -108,6 +108,18 @@ void Renderer::UpdateWindowTitle(int score1, int score2, int fps)
   title += std::to_string(score1);
   title += "   P2: ";
   title += std::to_string(score2);
+  title += "   Food: ";
+  title += std::to_string(foodRemaining);
+  if(timeRemaining >= K_MAX_FIGHTMODE_TIMER)
+  {
+    title += "   Time: ";
+    title += "-- ";
+  }
+  else
+  {
+    title += "   Time: ";
+    title += std::to_string(timeRemaining);
+  }
   title += " FPS: ";
   title += std::to_string(fps);
   SDL_SetWindowTitle(sdl_window, title.c_str());
@@ -117,8 +129,15 @@ void Renderer::UpdateWindowTitle(int player)
 {
   // std::string title{"Snake Fight Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   std::string title{"Game Over!!!: "};
-  title += "Player ";
-  title += std::to_string(player);
-  title += " Wins!!";
+  if(player !=0)
+  {
+    title += "Player ";
+    title += std::to_string(player);
+    title += " Wins!!";
+  }
+  else
+  {
+    title += "Its a Draw!!!";
+  }
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }

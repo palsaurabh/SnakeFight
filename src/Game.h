@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <random>
+#include <mutex>
 #include "Food.h"
 #include "Snake.h"
 #include "Renderer.h"
@@ -18,7 +19,8 @@ class Game
 {
 public:
     std::vector<Snake> players;
-
+    SDL_TimerID fightModeTimerID;
+    static std::mutex mtx;
     Game(int num_players = 1) : _numPlayers{num_players}
     {
         if (_numPlayers > K_MAX_NUM_PLAYERS)
@@ -33,9 +35,11 @@ public:
         }
         loop = true;
         generateFood();
-        mode = GameMode::EATING_MODE;   //Start the game in eating mode
+        Game::mode = GameMode::EATING_MODE;   //Start the game in eating mode
+        timeLeft = K_MAX_FIGHTMODE_TIMER;
     }
 
+    ~Game();
     //Update Game
     void update(dir *newDir);
     const Food &getFood();
@@ -45,7 +49,10 @@ public:
     void Loop(const Controller &controller, Renderer &renderer, std::size_t target_frame_duration);
     dir CheckDirection(const Snake &snake, const dir input) const;
     dir GetOppDirection(dir input) const;
-
+    static Uint32 FightMode_TimerCallback(Uint32 interval, void *param);
+    static void modifyGameMode(GameMode mode);
+    static GameMode getGameMode();
+    int getTimeLeft();
 private:
     //Generate a new unoccupied location
     const Point getUnoccupiedLocation();
@@ -55,7 +62,8 @@ private:
     int _numPlayers{1};
     Food food;
     bool loop;
-    GameMode mode;
+    static int timeLeft;
+    static GameMode mode;
 };
 
 #endif /*GAME_H*/

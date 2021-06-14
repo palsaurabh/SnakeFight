@@ -2,6 +2,7 @@
 #define CONTROLLER_H
 
 #include "Snake.h"
+#include "SDL.h"
 
 //Controller class for getting the inputs
 class Controller

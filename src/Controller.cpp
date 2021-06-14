@@ -1,6 +1,5 @@
 #include "Controller.h"
 #include <iostream>
-#include "SDL.h"
 #include "Snake.h"
 
 //Handle input coming from keyboard and window close button

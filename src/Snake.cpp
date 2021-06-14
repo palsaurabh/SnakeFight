@@ -1,6 +1,6 @@
 #include "Snake.h"
 
-void Snake::updateSnake(dir newDir, bool gotFood)
+void Snake::updateSnake(dir newDir, bool gotFood, bool bitten, int bitAt)
 {
     _snakeMovement += speed;
     if (_snakeMovement > 1.0)
@@ -23,6 +23,11 @@ void Snake::updateSnake(dir newDir, bool gotFood)
         incrementScore();
         // std::cerr<<"Snake Grown"<<'\n';
         speed += K_SPEED_INCREMENTS;
+    }
+    if(bitten)
+    {
+        decrementScore(getSnakeLen() - bitAt);
+        breakSnakeAt(bitAt);
     }
 }
 
@@ -86,4 +91,9 @@ void Snake::incrementScore()
 int Snake::getScore() const
 {
     return score;
+}
+
+void Snake::decrementScore(int decrement)
+{   std::cout<<"Decrement Value = decrement"<<decrement<<'\n';
+    score -= decrement;
 }

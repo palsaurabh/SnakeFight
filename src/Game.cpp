@@ -1,5 +1,46 @@
 #include "Game.h"
 
+GameMode Game::mode;
+int Game::timeLeft;
+std::mutex Game::mtx;
+
+Game::~Game()
+{
+    SDL_RemoveTimer(fightModeTimerID);
+}
+
+void Game::modifyGameMode(GameMode mode)
+{
+    std::lock_guard<std::mutex> lck(mtx);
+    Game::mode = mode;
+}
+
+GameMode Game::getGameMode()
+{
+    std::lock_guard<std::mutex> lck(mtx);
+    return Game::mode;
+}
+
+int Game::getTimeLeft()
+{
+    std::lock_guard<std::mutex> lck(mtx);
+    return timeLeft;
+}
+
+Uint32 Game::FightMode_TimerCallback(Uint32 interval, void *param)
+{
+    std::unique_lock<std::mutex> lck(mtx);
+    timeLeft--;
+    if(timeLeft <= 0)
+    {   
+        lck.unlock();
+        modifyGameMode(GameMode::OVER_MODE);
+        return 0;
+    }
+    lck.unlock();
+    return interval;
+}
+
 int Game::getRandomNumber(int lowerRange, int higherRange)
 {
     std::random_device rd;
@@ -36,8 +77,7 @@ const Point Game::getUnoccupiedLocation()
 void Game::generateFood()
 {
     food.updateLocation(getUnoccupiedLocation());
-    food.foodCount++;
-    printf("Food Generated!!. Food Count = %d\n", food.foodCount);
+    food.foodCount--;
 }
 
 const Food &Game::getFood()
@@ -82,9 +122,8 @@ void Game::update(dir *newDir)
 {
     int i = 0;
 
-    if (mode == GameMode::EATING_MODE)
+    if (getGameMode() == GameMode::EATING_MODE)
     {
-        printf("Game Mode Eat!!\n");
         for (auto &snake : players)
         {
             if (snake.alive)
@@ -93,17 +132,17 @@ void Game::update(dir *newDir)
                     food.getLocation().Y == snake.getSnakeBoxLocationAt(0).Y)
                 {
                     food.Eaten = true;
-                    snake.updateSnake(CheckDirection(snake, newDir[i]), true);
+                    snake.updateSnake(CheckDirection(snake, newDir[i]), true, false);
                 }
                 else
                 {
-                    snake.updateSnake(CheckDirection(snake, newDir[i]), false);
+                    snake.updateSnake(CheckDirection(snake, newDir[i]), false, false);
                 }
             }
             i++;
         }
     }
-    else if (mode == GameMode::FIGHTING_MODE)
+    else if (getGameMode() == GameMode::FIGHTING_MODE)
     {
         // printf("Game Mode Fight!!\n");
         for (int count = 1; count < players.at(0).getSnakeLen(); count++)
@@ -111,7 +150,7 @@ void Game::update(dir *newDir)
             if (players.at(0).getSnakeBoxLocationAt(count).X == players.at(1).getSnakeBoxLocationAt(0).X &&
                 players.at(0).getSnakeBoxLocationAt(count).Y == players.at(1).getSnakeBoxLocationAt(0).Y)
             {
-                players.at(0).breakSnakeAt(count);
+                players.at(0).updateSnake(dir::NO_DIR, false, true, count);
                 break;
             }
         }
@@ -121,7 +160,7 @@ void Game::update(dir *newDir)
             if (players.at(1).getSnakeBoxLocationAt(count).X == players.at(0).getSnakeBoxLocationAt(0).X &&
                 players.at(1).getSnakeBoxLocationAt(count).Y == players.at(0).getSnakeBoxLocationAt(0).Y)
             {
-                players.at(1).breakSnakeAt(count);
+                players.at(1).updateSnake(dir::NO_DIR, false, true, count);
                 break;
             }
         }
@@ -133,18 +172,22 @@ void Game::update(dir *newDir)
     if (food.Eaten)
     {
         generateFood();
-        if (food.foodCount >= K_MAX_NUMFOODS)
+        if (food.foodCount <= 0)
         {
-            mode = GameMode::FIGHTING_MODE;
-            printf("Game mode FIGHT!!\n");
+            modifyGameMode(GameMode::FIGHTING_MODE);
+            // Game::mode = GameMode::FIGHTING_MODE;
+            fightModeTimerID = SDL_AddTimer(K_ONESEC, FightMode_TimerCallback, NULL);
+            if(fightModeTimerID == 0)
+            {
+                std::cout<<"Error Adding Fight Timer: "<<fightModeTimerID<<'\n';
+            }
         }
         food.Eaten = false;
     }
 
     if (!players.at(0).alive || !players.at(1).alive)
-    {
-        mode = GameMode::OVER_MODE;
-        printf("Game mode OVER!!\n");
+    {   
+        modifyGameMode(GameMode::OVER_MODE);
     }
 }
 
@@ -162,7 +205,7 @@ void Game::Loop(const Controller &controller, Renderer &renderer, std::size_t ta
         frame_start = SDL_GetTicks();
         // Input, Update, Render - the main game loop.
         controller.HandleInput(loop, newDir);
-        if (mode != GameMode::OVER_MODE)
+        if (getGameMode() != GameMode::OVER_MODE)
         {
             update(newDir);
         }
@@ -178,13 +221,33 @@ void Game::Loop(const Controller &controller, Renderer &renderer, std::size_t ta
         // After every second, update the window title.
         if (frame_end - title_timestamp >= 1000)
         {
-            if (mode != GameMode::OVER_MODE)
+            if (getGameMode() == GameMode::EATING_MODE)
             {
-                renderer.UpdateWindowTitle(players.at(0).getScore(), players.at(1).getScore(), frame_count);
+                renderer.UpdateWindowTitle(players.at(0).getScore(), players.at(1).getScore(), food.foodCount, getTimeLeft(), frame_count);
+            }
+            else if(getGameMode() == GameMode::FIGHTING_MODE)
+            {
+                renderer.UpdateWindowTitle(players.at(0).getScore(), players.at(1).getScore(), food.foodCount, getTimeLeft(), frame_count);
             }
             else
             {
-                int player = players.at(0).alive ? 1 : 2;
+                int player = 0;
+                if(!players.at(0).alive || !players.at(1).alive)
+                {
+                    player = players.at(0).alive ? 1 : 2;
+                }
+                else if(players.at(0).getScore() > players.at(1).getScore())
+                {
+                    player = 1;
+                }
+                else if(players.at(0).getScore() == players.at(1).getScore())
+                {
+                    player = 0;
+                }
+                else if(players.at(0).getScore() < players.at(1).getScore())
+                {
+                    player = 2;
+                }
                 renderer.UpdateWindowTitle(player);
             }
             frame_count = 0;
