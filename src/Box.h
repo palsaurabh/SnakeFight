@@ -26,12 +26,17 @@ public:
     Box(int xLoc, int yLoc, dir direc = dir::NO_DIR, int r = 255, int g = 0, int b = 0, bool ishead = false)
         : _loc{xLoc, yLoc}, _direction{direc}, _R{r}, _G{g}, _B{b}, _isHead{ishead} {}
 
-    void moveBox(dir dirctn);
+    //Move the box in a new direction
+    void moveBox(dir newdirctn);
+    //Move the box  in existing direction
     void moveBox();
+    //Update the box location
     void updateLocation(Point loc);
+    //Update the box direction
     void updateDirection(dir dirctn);
     dir getDirection() const;
     Point getLocation() const;
+    //Is this box a Snake head
     bool isHead() const;
     Box &operator=(const Box &box);
 

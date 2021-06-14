@@ -35,15 +35,21 @@ public:
         generateFood();
         mode = GameMode::EATING_MODE;   //Start the game in eating mode
     }
+
+    //Update Game
     void update(dir *newDir);
     const Food &getFood();
     void generateFood();
+
+    //Game Loop
     void Loop(const Controller &controller, Renderer &renderer, std::size_t target_frame_duration);
     dir CheckDirection(const Snake &snake, const dir input) const;
     dir GetOppDirection(dir input) const;
 
 private:
+    //Generate a new unoccupied location
     const Point getUnoccupiedLocation();
+    //Generate a random number in the given range
     int getRandomNumber(int lowerRange, int higherRange);
     // bool _isMultiplayer;
     int _numPlayers{1};

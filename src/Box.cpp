@@ -1,8 +1,8 @@
 #include "Box.h"
 
-void Box::moveBox(dir dirctn)
+void Box::moveBox(dir newdirctn)
 {
-    switch (dirctn)
+    switch (newdirctn)
     {
     case dir::UP_DIR:
         if ((_loc.Y - 1) >= 0)

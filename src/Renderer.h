@@ -13,7 +13,7 @@ public:
   Renderer(const std::size_t screen_width, const std::size_t screen_height,
            const std::size_t grid_width, const std::size_t grid_height);
   ~Renderer();
-
+  //Render the game on the screen
   void Render(std::vector<Snake> &snake, Food &food);
   //Print window title during the game mode Eating Food
   void UpdateWindowTitle(int score1, int score2, int fps);
