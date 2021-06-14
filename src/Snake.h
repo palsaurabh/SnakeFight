@@ -18,10 +18,11 @@ public:
         alive = true;
         score = 0;
     }
-
+    //Update the snake based on new direction and food eaten/not-eaten
     void updateSnake(dir newDir = dir::NO_DIR, bool gotFood = false);
     int getSnakeLen() const;
     Point getSnakeBoxLocationAt(int location) const;
+    //Break the snake from the location at which other snake bit it
     void breakSnakeAt(int location);
     dir getSnakeDirection() const;
     void incrementScore();
