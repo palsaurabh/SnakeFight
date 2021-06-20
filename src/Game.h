@@ -49,6 +49,7 @@ public:
     void Loop(const Controller &controller, Renderer &renderer, std::size_t target_frame_duration);
     dir CheckDirection(const Snake &snake, const dir input) const;
     dir GetOppDirection(dir input) const;
+    dir getPerpendicularDirection(dir input) const;
     static Uint32 FightMode_TimerCallback(Uint32 interval, void *param);
     static void modifyGameMode(GameMode mode);
     static GameMode getGameMode();
@@ -57,12 +58,13 @@ private:
     //Generate a new unoccupied location
     const Point getUnoccupiedLocation();
     //Generate a random number in the given range
-    int getRandomNumber(int lowerRange, int higherRange);
+    int getRandomNumber(int lowerRange, int higherRange) const;
     // bool _isMultiplayer;
     int _numPlayers{1};
     Food food;
     bool loop;
     static int timeLeft;
+    [[maybe_unused]] bool headCollision{false};
     static GameMode mode;
 };
 

@@ -28,9 +28,10 @@ public:
     void decrementScore(int decrement);
     void incrementScore();
     int getScore() const;
+    Box getSnakeHead() const;
     float speed{0.1};
     bool alive;
-
+    bool areSnakeHeadsOnCollisonCourse(const Snake& snake) const;
 private:
     std::vector<Box> _Snake_Body;
     void moveSnake(dir dirctn);

@@ -41,7 +41,7 @@ Uint32 Game::FightMode_TimerCallback(Uint32 interval, void *param)
     return interval;
 }
 
-int Game::getRandomNumber(int lowerRange, int higherRange)
+int Game::getRandomNumber(int lowerRange, int higherRange) const
 {
     std::random_device rd;
     std::mt19937 engine(rd());
@@ -108,6 +108,27 @@ dir Game::GetOppDirection(dir input) const
 
     return opposite;
 }
+
+dir Game::getPerpendicularDirection(dir input) const
+{
+    dir perpDir = dir::NO_DIR;
+    switch (input)
+    {
+    case dir::UP_DIR:
+    case dir::DOWN_DIR:
+        perpDir = static_cast<dir>(getRandomNumber(static_cast<int>(dir::LEFT_DIR), static_cast<int>(dir::RIGHT_DIR)));
+        break;
+    case dir::RIGHT_DIR:
+    case dir::LEFT_DIR:
+        perpDir = static_cast<dir>(getRandomNumber(static_cast<int>(dir::UP_DIR), static_cast<int>(dir::DOWN_DIR)));
+        break;
+    default:
+        break;
+    }
+
+    return perpDir;
+}
+
 dir Game::CheckDirection(const Snake &snake, const dir input) const
 {
     dir opposite = dir::NO_DIR;

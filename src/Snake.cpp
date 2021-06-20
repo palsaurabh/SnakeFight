@@ -3,6 +3,7 @@
 void Snake::updateSnake(dir newDir, bool gotFood, bool bitten, int bitAt)
 {
     _snakeMovement += speed;
+
     if (_snakeMovement > 1.0)
     {
         _tail = _Snake_Body.back();
@@ -17,6 +18,11 @@ void Snake::updateSnake(dir newDir, bool gotFood, bool bitten, int bitAt)
         }
         _snakeMovement = 0;
     }
+    // else
+    // {
+    //     if (newDir != dir::NO_DIR)
+    //         _Snake_Body.front().updateDirection(newDir);
+    // }
     if (gotFood)
     {
         growSnake();
@@ -61,7 +67,7 @@ void Snake::moveSnake(dir dirctn)
 
 void Snake::growSnake()
 {
-    _Snake_Body.emplace_back(Box(_tail));
+    _Snake_Body.push_back(Box(_tail));
 }
 
 int Snake::getSnakeLen() const
@@ -96,4 +102,19 @@ int Snake::getScore() const
 void Snake::decrementScore(int decrement)
 {   std::cout<<"Decrement Value = decrement"<<decrement<<'\n';
     score -= decrement;
+}
+
+Box Snake::getSnakeHead() const
+{
+    return _Snake_Body.at(0);
+}
+
+bool Snake::areSnakeHeadsOnCollisonCourse(const Snake& snake) const
+{
+    if(getSnakeHead().isOnCollisionCourseWith(snake.getSnakeHead()))
+    {
+        return true;
+    }
+
+    return false;
 }

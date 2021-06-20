@@ -1,5 +1,18 @@
 #include "Box.h"
 
+// Box::Box(const Box& box)
+// {
+//     this->_B = box._B;
+//     this->_direction = box._direction;
+//     this->_G = box._G;
+//     this->_isHead = box._isHead;
+//     this->_R = box._R;
+//     this->_loc.X = box._loc.X;
+//     this->_loc.Y = box._loc.Y;
+
+//     return *this;
+// }
+
 void Box::moveBox(dir newdirctn)
 {
     switch (newdirctn)
@@ -78,18 +91,18 @@ Point Box::getLocation() const
     return _loc;
 }
 
-Box &Box::operator=(const Box &box)
-{
-    this->_B = box._B;
-    this->_direction = box._direction;
-    this->_G = box._G;
-    this->_isHead = box._isHead;
-    this->_R = box._R;
-    this->_loc.X = box._loc.X;
-    this->_loc.Y = box._loc.Y;
+// Box &Box::operator=(const Box &box)
+// {
+//     this->_B = box._B;
+//     this->_direction = box._direction;
+//     this->_G = box._G;
+//     this->_isHead = box._isHead;
+//     this->_R = box._R;
+//     this->_loc.X = box._loc.X;
+//     this->_loc.Y = box._loc.Y;
 
-    return *this;
-}
+//     return *this;
+// }
 
 void Box::updateLocation(Point loc)
 {
@@ -106,4 +119,23 @@ void Box::updateDirection(dir dirctn)
 dir Box::getDirection() const
 {
     return _direction;
+}
+
+bool Box::isOnCollisionCourseWith(Box box) const
+{
+    Box thisBox = *this;
+    // Box otherBox = box;
+
+    if(abs(thisBox.getLocation().X - box.getLocation().X) < 2 && abs(thisBox.getLocation().Y - box.getLocation().Y) < 2)
+    {
+        thisBox.moveBox();
+        if(abs(thisBox.getLocation().X - box.getLocation().X) == 0 && abs(thisBox.getLocation().Y - box.getLocation().Y) == 0)
+        {
+            std::cout<<"Are on collision course\n";
+            return true;
+        }
+        std::cout<<"Are NOT!! on collision course\n";
+
+    }
+    return false;
 }
