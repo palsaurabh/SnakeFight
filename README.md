@@ -30,3 +30,6 @@ This repository contains the extended version of Snake Game as provided by Udaci
 # Modes
 1. Eating Mode: Food catching competition. The more food is eaten, the faster the snake.
 2. Fight Mode: Each snake can eat/cut-off the portions of other snake and earn the points. Snake with the highest points at the end of countdown wins.
+
+
+![image](https://user-images.githubusercontent.com/5771813/122678160-273d5d80-d203-11eb-8754-56616e4751c1.png)
