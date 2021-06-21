@@ -1,18 +1,5 @@
 #include "Box.h"
 
-// Box::Box(const Box& box)
-// {
-//     this->_B = box._B;
-//     this->_direction = box._direction;
-//     this->_G = box._G;
-//     this->_isHead = box._isHead;
-//     this->_R = box._R;
-//     this->_loc.X = box._loc.X;
-//     this->_loc.Y = box._loc.Y;
-
-//     return *this;
-// }
-
 void Box::moveBox(dir newdirctn)
 {
     switch (newdirctn)
@@ -91,19 +78,6 @@ Point Box::getLocation() const
     return _loc;
 }
 
-// Box &Box::operator=(const Box &box)
-// {
-//     this->_B = box._B;
-//     this->_direction = box._direction;
-//     this->_G = box._G;
-//     this->_isHead = box._isHead;
-//     this->_R = box._R;
-//     this->_loc.X = box._loc.X;
-//     this->_loc.Y = box._loc.Y;
-
-//     return *this;
-// }
-
 void Box::updateLocation(Point loc)
 {
     //TODO: Check range
@@ -131,10 +105,8 @@ bool Box::isOnCollisionCourseWith(Box box) const
         thisBox.moveBox();
         if(abs(thisBox.getLocation().X - box.getLocation().X) == 0 && abs(thisBox.getLocation().Y - box.getLocation().Y) == 0)
         {
-            std::cout<<"Are on collision course\n";
             return true;
         }
-        std::cout<<"Are NOT!! on collision course\n";
 
     }
     return false;

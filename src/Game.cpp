@@ -165,7 +165,6 @@ void Game::update(dir *newDir)
     }
     else if (getGameMode() == GameMode::FIGHTING_MODE)
     {
-        // printf("Game Mode Fight!!\n");
         for (int count = 1; count < players.at(0).getSnakeLen(); count++)
         {
             if (players.at(0).getSnakeBoxLocationAt(count).X == players.at(1).getSnakeBoxLocationAt(0).X &&
@@ -196,7 +195,6 @@ void Game::update(dir *newDir)
         if (food.foodCount <= 0)
         {
             modifyGameMode(GameMode::FIGHTING_MODE);
-            // Game::mode = GameMode::FIGHTING_MODE;
             fightModeTimerID = SDL_AddTimer(K_ONESEC, FightMode_TimerCallback, NULL);
             if(fightModeTimerID == 0)
             {
