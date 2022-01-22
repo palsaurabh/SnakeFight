@@ -4,7 +4,6 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    /usr/include/SDL2
 )
 
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src PROJECTLIBSRC)

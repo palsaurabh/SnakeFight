@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.19.0)
 
-set(PROJECTLIBTESTS SnakeFightTests)
+set(PROJECTLIBTESTS GraphAlgosTests)
 
 link_directories(
     ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}   

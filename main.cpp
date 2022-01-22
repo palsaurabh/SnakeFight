@@ -1,22 +1,12 @@
 #include <iostream>
-#include "Game.h"
-
+#include <string>
+#include <sstream>
+#include <vector>
+#include <GraphAlgos.h>
 int main()
 {
-  // Create the renderer
-  Renderer renderer(K_SCREENWIDTH, K_SCREENHEIGHT, K_GRIDWIDTH, K_GRIDHEIGHT);
+  Graph graph("input.txt");
 
-  //Create the controller
-  Controller controller;
-  // Game game;
-
-  //Initialise the game for 2 players
-  Game game(2);
-
-  //Start the game loop
-  game.Loop(controller, renderer, K_MSPERFRAME);
-  std::cout << "Game has terminated successfully!\n";
-  //   std::cout << "Score: " << game.GetScore() << "\n";
-  //   std::cout << "Size: " << game.GetSize() << "\n";
+  graph.printGraph();
   return 0;
 }
